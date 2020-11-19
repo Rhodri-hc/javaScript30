@@ -58,7 +58,57 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
+    const keys = Array.from( document.querySelectorAll(".key"))
+    // 添加 transition 事件监听
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
 
+    /**
+    * @desc 监听键盘按键
+    * @author 张和潮
+    * @date 2020年11月19日 22:23
+    */
+    function keyDownEvent({keyCode}) {      
+      SoundAndStyle(keyCode);
+    }
+
+    /**
+    * @desc 移除样式
+    * @author 张和潮
+    * @date 2020年11月19日 22:51
+    */
+    function removeTransition(event) {
+      // 过滤其中一种事件
+      if (event.propertyName !== 'transform') { 
+        return;
+      }; 
+      // 移除高亮的样式
+      event.target.classList.remove('playing'); 
+    }
+
+    /**
+    * @desc 播放音频和改变样式
+    * @author 张和潮
+    * @date 2020年11月19日 22:34
+    */
+    function SoundAndStyle(code) {
+      // 根据触发按键的键码，获取对应的音频元素
+      const audio = document.querySelector(`audio[data-key="${code}"]`); 
+      // 获取对应的div元素
+      const keydiv = document.querySelector(`div[data-key="${code}"]`);
+      
+      // 处理无效的按键事件
+      if (!audio) {
+          return;
+      }
+      // 改变样式
+      keydiv.classList.add('playing'); 
+      // 每次播放之后都使音频播放进度归零
+      audio.currentTime = 0; 
+      // 播放音频
+      audio.play();
+    }
+
+    window.addEventListener('keydown', keyDownEvent)
   </script>
 
 </body>
