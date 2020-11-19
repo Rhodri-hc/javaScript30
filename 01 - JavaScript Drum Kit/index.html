@@ -61,6 +61,7 @@
     const keys = Array.from( document.querySelectorAll(".key"))
     // 添加 transition 事件监听
     keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
+    
 
     /**
     * @desc 监听键盘按键
@@ -81,9 +82,11 @@
       if (event.propertyName !== 'transform') { 
         return;
       }; 
+      
       // 移除高亮的样式
       event.target.classList.remove('playing'); 
     }
+
 
     /**
     * @desc 播放音频和改变样式
@@ -108,7 +111,22 @@
       audio.play();
     }
 
+    /**
+    * @desc keyup移除样式
+    * @author 张和潮
+    * @date 2020年11月19日 23:46
+    */
+    function keyupRemove({keyCode}){
+      const keydiv = document.querySelector(`div[data-key="${keyCode}"]`);
+      if (keydiv) {
+        keydiv.classList.remove('playing');
+      }
+      
+    }
+
     window.addEventListener('keydown', keyDownEvent)
+    // 当按键被连续按下时，keyup移除样式
+    window.addEventListener('keyup', keyupRemove)
   </script>
 
 </body>
