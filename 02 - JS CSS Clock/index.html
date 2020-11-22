@@ -3,21 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>JS + CSS Clock</title>
-</head>
-<body>
-
-
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
-      </div>
-    </div>
-
-
   <style>
-    html {
+      html {
       background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
       background-size:cover;
       font-family:'helvetica neue';
@@ -61,12 +48,64 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
-
   </style>
 
-  <script>
+</head>
+<body>
 
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  
+  <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    // 时分秒对象
+    const handObj = {
+        seconds : secondHand,
+        mins : minHand,
+        hours : hourHand
+    }
+
+    /**
+    * @desc 设置时间
+    * @author 张和潮
+    * @date 2020年11月22日 23:19
+    */
+    function setDate(){
+      const nowTime = new Date();
+
+      // 获取当前的时分秒
+      const TIME = {
+        seconds : nowTime.getSeconds(),
+        mins : nowTime.getMinutes(),
+        hours : nowTime.getHours()
+      }
+
+      Object.keys( TIME ).forEach(value => {
+        const currentHandDegrees = ((TIME[value] / 60) * 360) + 90;
+        console.log(currentHandDegrees);
+        handObj[value].style.transform = `rotate(${currentHandDegrees}deg)`;
+      })
+    }
+
+    setInterval(setDate, 1000);
+
+    setDate();
 
   </script>
 </body>
