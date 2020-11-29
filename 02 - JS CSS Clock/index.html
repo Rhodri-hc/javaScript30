@@ -53,6 +53,18 @@
       transition: all 0.05s;
       transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
+    .hour-hand{
+      width: 35%;
+      top:50%;
+      left: 15%;
+    }
+    .min-hand{
+      width: 42%;
+      top:50%;
+      left: 8%;
+    }
+    
+
   </style>
 
 </head>
@@ -97,8 +109,13 @@
       }
 
       Object.keys( TIME ).forEach(value => {
-        const currentHandDegrees = ((TIME[value] / 60) * 360) + 90;
-        console.log(currentHandDegrees);
+        let currentHandDegrees
+        if (value === "hours" ) {
+           currentHandDegrees = ((TIME[value] / 12) * 360) + 90;
+        } else {
+           currentHandDegrees = ((TIME[value] / 60) * 360) + 90;
+        }
+        
         handObj[value].style.transform = `rotate(${currentHandDegrees}deg)`;
       })
     }
